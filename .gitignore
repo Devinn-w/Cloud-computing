@@ -5,3 +5,12 @@ Data-Engineering-Zoomcamping/
 .ssh/
 .gitconfig
 .lesshst
+.cache/
+.config/
+.docker/
+.kube/
+.local/
+.openstack/
+.ssh/
+.gitconfig
+.lesshst
