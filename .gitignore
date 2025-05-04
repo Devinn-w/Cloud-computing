@@ -1,2 +1,7 @@
 Data-Engineering-Zoomcamping/
 
+.kube/
+.kube/
+.ssh/
+.gitconfig
+.lesshst
