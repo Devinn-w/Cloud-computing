@@ -1,4 +1,4 @@
-# COMP90024 Team35 - A2: Big Data Analytics on the Cloud
+# COMP90024 Team35 - Big Data Analytics on the Cloud
 
 ## Project Topic
 **What do Australians think of Donald Trump and the use of tariffs across different social media platforms?**
