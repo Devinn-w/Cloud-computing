@@ -5,7 +5,7 @@ import json
 import time
 import re
 import logging
-from analyzer.sentiment import analyze_sentiment
+# from analyzer.sentiment import analyze_sentiment
 from elasticsearch8 import Elasticsearch
 
 try:
@@ -54,15 +54,15 @@ def main():
             content = remove_html_tags(post.get('content', ''))
 
             if contains_keywords(content):
-                sentiment = analyze_sentiment(content)
+                #sentiment = analyze_sentiment(content)
 
                 doc = {
                     'id': post['id'],
                     'source': 'mastodon',
                     'user': post['account']['acct'],
                     'content': content,
-                    'created_at': post['created_at'],
-                    'sentiment': sentiment
+                    'created_at': post['created_at']
+                    #'sentiment': sentiment
                 }
 
                 timestamp = str(post["created_at"]).replace(":", "-").replace(".", "-")
