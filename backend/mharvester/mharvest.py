@@ -64,7 +64,7 @@ def main():
                     'source': 'mastodon',
                     'user': post['account']['acct'],
                     'content': content,
-                    'created_at': post['created_at']
+                    'created_at': post['created_at'],
                     'sentiment_score': analyze_sentiment(content)
                 }
 
