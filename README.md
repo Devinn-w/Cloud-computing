@@ -8,7 +8,7 @@ This project collects, stores, analyzes and visualizes public sentiment from Red
 ## System Overview
 This application is deployed on the NeCTAR Research Cloud using a **Kubernetes** cluster. It uses:
 
-- **Fission** (Serverless Functions) to harvest and process social media data
+- **Fission** (Serverless Functions) to harvest and process Reddit & Mastodon data
 - **Elasticsearch** to store and index data
 - **Kibana** for log and index inspection
 - **Jupyter Notebook** for frontend analytics and visualization
