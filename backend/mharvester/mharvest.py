@@ -49,9 +49,12 @@ def main():
         time.sleep(5) # Allow time window for new posts
 
         posts = mastodon.timeline(timeline='public', since_id=lastid, remote=True)
+        logger.info(f"Found {len(posts)} new posts since ID {anchor_post['id']}")
 
         for post in posts:
             content = remove_html_tags(post.get('content', ''))
+
+            logger.info(f"Found {len(posts)} new posts containing keywords since ID {anchor_post['id']}")
 
             if contains_keywords(content):
 
@@ -67,20 +70,15 @@ def main():
                 timestamp = str(post["created_at"]).replace(":", "-").replace(".", "-")
                 doc_id: str = f'{post["id"]}-{timestamp}'
 
-                index_response: Dict[str, Any] = es_client.index(
-                    index='mastodon-posts',
-                    id=doc_id,
-                    body=doc
-                )
-
-                logger.info(
-                    f"Indexed Mastodon post {doc_id} - "
-                    f"Version: {index_response['_version']}"
-                )
-
-        logger.info(
-            f"Indexed {len(posts)} total posts from Mastodon since_id: {lastid}"
-        )
+                try:
+                    index_response: Dict[str, Any] = es_client.index(
+                        index='mastodon-posts',
+                        id=doc_id,
+                        document=doc
+                    )
+                except Exception as e:
+                    logger.error(f"Failed to write doc {doc_id}: {e}")
+                    logger.error(f"Doc content: {json.dumps(doc)}")
 
     except MastodonError as e:
         logger.error(f"[Mastodon ERROR] {e}")
