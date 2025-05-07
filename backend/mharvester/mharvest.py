@@ -25,7 +25,7 @@ def contains_keywords(text: str) -> bool:
     text = text.lower()
     return any(keyword in text for keyword in KEYWORDS)
 
-def main() -> str:
+def main():
     """Harvest recent public posts from Mastodon timeline matching keywords."""
     
     # Initialize Elasticsearch client
