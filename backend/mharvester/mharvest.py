@@ -26,6 +26,7 @@ def contains_keywords(text: str) -> bool:
     return any(keyword in text for keyword in KEYWORDS)
 
 def main():
+    matches = 0
     """Harvest recent public posts from Mastodon timeline matching keywords."""
     
     # Initialize Elasticsearch client
@@ -57,7 +58,7 @@ def main():
             logger.info(f"Found {len(posts)} new posts containing keywords since ID {anchor_post['id']}")
 
             if contains_keywords(content):
-
+                matches += 1
                 doc = {
                     'id': post['id'],
                     'source': 'mastodon',
@@ -84,5 +85,5 @@ def main():
         logger.error(f"[Mastodon ERROR] {e}")
         return {"status": "error", "message": str(e)}
 
-    return {"status": "ok", "indexed_posts": len(posts)}
+    return {"status": "ok", "found_posts": len(posts), "indexed_posts": matches}
 
