@@ -15,7 +15,7 @@ except RuntimeError:
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-KEYWORDS = ["Donald Trump", "Trump", "tariff", "tariffs"] 
+KEYWORDS = ["donald trump", "trump", "maga", "make america great again","potus","trumpism","trumpian","45th president"]
 
 def remove_html_tags(text: str) -> str:
     clean = re.compile('<.*?>')
@@ -24,6 +24,9 @@ def remove_html_tags(text: str) -> str:
 def contains_keywords(text: str) -> bool:
     text = text.lower()
     return any(keyword in text for keyword in KEYWORDS)
+
+def extract_matched_keywords(text: str) -> List[str]:
+    return [kw for kw in KEYWORDS if kw in text.lower()]
 
 def main():
     matches = 0
@@ -59,13 +62,16 @@ def main():
 
             if contains_keywords(content):
                 matches += 1
+                
                 doc = {
                     'id': post['id'],
                     'source': 'mastodon',
                     'user': post['account']['acct'],
                     'content': content,
                     'created_at': post['created_at'],
-                    'sentiment_score': analyze_sentiment(content)
+                    'sentiment_score': analyze_sentiment(content),
+                    'matched_keywords': matched,
+                    'period': 'new'
                 }
 
                 timestamp = str(post["created_at"]).replace(":", "-").replace(".", "-")
