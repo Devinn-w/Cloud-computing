@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-KEYWORDS = ["Donald Trump", "Trump", "tariff", "tariffs"]
+KEYWORDS = ["donald trump", "trump", "tariff", "tariffs"]
 
 
 def remove_html_tags(text: str) -> str:
@@ -45,14 +45,12 @@ def save_last_created_time(es_client, new_time: float):
 def main():
     matches = 0
 
-
     es_client: Elasticsearch = Elasticsearch(
         "https://elasticsearch-master.elastic.svc.cluster.local:9200",
         verify_certs=False,
         ssl_show_warn=False,
         basic_auth=("elastic", "elastic")
     )
-
 
     reddit = Reddit(
         client_id="Ku89M9J60Btb3X10HJVeaw",
@@ -104,7 +102,7 @@ def main():
 
         save_last_created_time(es_client, new_max_time)
         logger.info(f"Updated last timestamp to: {new_max_time}")
-        logger.info(f"Indexed {matches} new Reddit posts")
+        logger.info(f"Indexed {matches} posts (matched keywords) from Reddit since_id: {lastid}")
 
     except Exception as e:
         logger.error(f"[Reddit ERROR] {e}")
