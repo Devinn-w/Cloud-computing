@@ -57,6 +57,7 @@ def main():
 
         for post in posts:
             content = remove_html_tags(post.get('content', ''))
+            matched = extract_matched_keywords(content)
 
             logger.info(f"Found {len(posts)} new posts containing keywords since ID {anchor_post['id']}")
 
