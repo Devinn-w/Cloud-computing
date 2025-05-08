@@ -102,7 +102,6 @@ def main():
 
         save_last_created_time(es_client, new_max_time)
         logger.info(f"Updated last timestamp to: {new_max_time}")
-        logger.info(f"Indexed {matches} posts (matched keywords) from Reddit since_id: {lastid}")
 
     except Exception as e:
         logger.error(f"[Reddit ERROR] {e}")
