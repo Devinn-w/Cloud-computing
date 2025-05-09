@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tharvest-script
+  name: mpast-script
 data:
   tharvest.py: |
     from mastodon import Mastodon, MastodonError
