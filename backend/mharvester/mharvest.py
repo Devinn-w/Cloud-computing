@@ -15,7 +15,7 @@ except RuntimeError:
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-KEYWORDS = ["donald trump", "trump", "make america great again", "trumpism","trumpian","45th president"]
+KEYWORDS = ["donald trump", "maga", "trump", "make america great again", "trumpism","trumpian","45th president"]
 
 def remove_html_tags(text: str) -> str:
     clean = re.compile('<.*?>')
@@ -23,10 +23,11 @@ def remove_html_tags(text: str) -> str:
 
 def contains_keywords(text: str) -> bool:
     text = text.lower()
-    return any(keyword in text for keyword in KEYWORDS)
+    return any(re.search(rf'\\b{re.escape(kw)}\\b', text) for kw in KEYWORDS)
 
 def extract_matched_keywords(text: str) -> List[str]:
-    return [kw for kw in KEYWORDS if kw in text.lower()]
+    text = text.lower()
+    return [kw for kw in KEYWORDS if re.search(rf'\\b{re.escape(kw)}\\b', text)]
 
 def load_last_post_id(es_client):
     try:
