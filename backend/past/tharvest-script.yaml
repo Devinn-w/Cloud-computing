@@ -42,12 +42,13 @@ data:
         clean = re.compile('<.*?>')
         return unescape(re.sub(clean, '', text))
     
-    def extract_matched_keywords(text: str) -> List[str]:
-        return [kw for kw in KEYWORDS if kw in text.lower()]
-    
     def contains_keywords(text: str) -> bool:
         text = text.lower()
-        return any(keyword in text for keyword in KEYWORDS)
+        return any(re.search(rf'\\b{re.escape(kw)}\\b', text) for kw in KEYWORDS)
+
+    def extract_matched_keywords(text: str) -> List[str]:
+        text = text.lower()
+        return [kw for kw in KEYWORDS if re.search(rf'\\b{re.escape(kw)}\\b', text)]
     
     def main():
         matches = 0
