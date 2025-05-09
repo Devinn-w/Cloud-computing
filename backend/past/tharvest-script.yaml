@@ -25,7 +25,7 @@ data:
         logging.basicConfig(level=logging.INFO)
         logger = logging.getLogger(__name__)
     
-    KEYWORDS = ["donald trump", "trump", "maga", "make america great again","potus","trumpism","trumpian","45th president"]
+    KEYWORDS = ["donald trump", "trump", "make america great again","trumpism","trumpian","45th president"]
     
     analyzer = SentimentIntensityAnalyzer()
     
@@ -43,12 +43,11 @@ data:
         return unescape(re.sub(clean, '', text))
     
     def contains_keywords(text: str) -> bool:
-        text = text.lower()
-        return any(re.search(rf'\\b{re.escape(kw)}\\b', text) for kw in KEYWORDS)
+    text = text.lower()
+    return any(keyword in text for keyword in KEYWORDS)
 
     def extract_matched_keywords(text: str) -> List[str]:
-        text = text.lower()
-        return [kw for kw in KEYWORDS if re.search(rf'\\b{re.escape(kw)}\\b', text)]
+        return [kw for kw in KEYWORDS if kw in text.lower()]
     
     def main():
         matches = 0
