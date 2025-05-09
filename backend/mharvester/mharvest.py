@@ -28,6 +28,20 @@ def contains_keywords(text: str) -> bool:
 def extract_matched_keywords(text: str) -> List[str]:
     return [kw for kw in KEYWORDS if kw in text.lower()]
 
+def load_last_post_id(es_client):
+    try:
+        resp = es_client.search(
+            index="mastodon-posts",
+            size=1,
+            sort="created_at:desc",
+            _source=["id"]
+        )
+        hits = resp["hits"]["hits"]
+        return hits[0]["_source"]["id"] if hits else None
+    except Exception as e:
+        logger.warning(f"Failed to load last post ID: {e}")
+        return None
+
 def main():
     matches = 0
     """Harvest recent public posts from Mastodon timeline matching keywords."""
@@ -48,35 +62,37 @@ def main():
     )
 
     try:
-        anchor_post = mastodon.timeline(timeline='public', limit=1, remote=True)[0]
-        lastid = anchor_post['id']
-        time.sleep(5) # Allow time window for new posts
+        lastid = load_last_post_id(es_client)
 
-        posts = mastodon.timeline(timeline='public', since_id=lastid, remote=True)
-        logger.info(f"Found {len(posts)} new posts since ID {anchor_post['id']}")
+        if not lastid:
+            anchor_post = mastodon.timeline(timeline='public', limit=1, remote=True)[0]
+            lastid = anchor_post['id']
+            logger.info(f"Initial run — using anchor post ID: {lastid}")
+        else:
+            logger.info(f"Using last known post ID: {lastid}")
+
+        posts = mastodon.timeline(timeline='public', since_id=lastid, limit=40, remote=True)
 
         for post in posts:
             content = remove_html_tags(post.get('content', ''))
             matched = extract_matched_keywords(content)
-
-            logger.info(f"Found {len(posts)} new posts containing keywords since ID {anchor_post['id']}")
+            created_at = post['created_at']
 
             if contains_keywords(content):
                 matches += 1
+                logger.info(f"Found {len(posts)} new posts since last_id: {lastid}")
                 
                 doc = {
                     'id': post['id'],
                     'source': 'mastodon',
                     'user': post['account']['acct'],
                     'content': content,
-                    'created_at': post['created_at'],
+                    'created_at': created_at.strftime("%Y-%m-%d %H:%M:%S"),
                     'sentiment_score': analyze_sentiment(content),
-                    'matched_keywords': matched,
-                    'period': 'new'
+                    'matched_keywords': matched
                 }
 
-                timestamp = str(post["created_at"]).replace(":", "-").replace(".", "-")
-                doc_id: str = f'{post["id"]}-{timestamp}'
+                doc_id = str(post["id"])
 
                 try:
                     index_response: Dict[str, Any] = es_client.index(
@@ -84,9 +100,12 @@ def main():
                         id=doc_id,
                         document=doc
                     )
+                    logger.info(f"Indexed {doc_id} — Version: {index_response['_version']}")
                 except Exception as e:
                     logger.error(f"Failed to write doc {doc_id}: {e}")
                     logger.error(f"Doc content: {json.dumps(doc)}")
+
+        logger.info(f"Indexed {matches} posts (matched keywords) from Mastodon since_id: {lastid}") 
 
     except MastodonError as e:
         logger.error(f"[Mastodon ERROR] {e}")
