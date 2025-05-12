@@ -1,2 +1,3 @@
 elasticsearch8==8.11.1
 atproto==0.0.44
+vaderSentiment==3.3.2
