@@ -12,7 +12,7 @@ KEYWORDS = ["Donald Trump", "Trump", "tariff", "tariffs"]
 AU_KEYWORDS = [
     "australia", "australian", "aussie",
     "melbourne", "sydney", "brisbane", "perth", "adelaide",
-    "canberra", "tasmania", "darwin", "down under"
+    "canberra", "tasmania", "darwin"
 ]
 ES_INDEX = "bluesky-posts"
 MAX_PAGES = 100  
