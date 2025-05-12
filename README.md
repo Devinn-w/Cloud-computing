@@ -13,6 +13,11 @@ This application is deployed on the NeCTAR Research Cloud using a **Kubernetes**
 - **Kibana** for log and index inspection
 - **Jupyter Notebook** for frontend analytics and visualization
 
+### Project presentation link
+Gitlab Repository: https://gitlab.unimelb.edu.au/HENGJIN/comp90024-2025-35
+YouTube Video: https://youtu.be/yourvideo
+Frontend System: https://colab.research.google.com/drive/125dMmKZG59QFcQjnnqvmeqTu4rKSI-5E?authuser=0
+
 ### Structure
 ```
 .
