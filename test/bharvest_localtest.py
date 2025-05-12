@@ -72,7 +72,7 @@ def main():
                 author_handle = post.author.handle if post.author and post.author.handle else None
                 uri = post.uri
 
-                # 必须同时满足：关键词 + 澳洲相关
+        
                 if not (contains_keywords(text) and is_au_related(text)):
                     continue
 
