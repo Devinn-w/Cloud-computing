@@ -1,5 +1,3 @@
-# backend/analysis/stats.py
-
 import logging
 import json
 import re
