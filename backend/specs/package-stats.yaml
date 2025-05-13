@@ -1,0 +1,12 @@
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  name: stats
+spec:
+  environment:
+    name: python39
+  source:
+    type: ArchiveUploadSpec
+    include:
+      - stats.zip
+  buildcmd: ./build.sh
