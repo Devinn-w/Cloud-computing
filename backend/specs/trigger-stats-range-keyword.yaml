@@ -1,0 +1,12 @@
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  name: stats-range-keyword-trigger
+spec:
+  functionref:
+    name: stats-range-keyword
+  ingressconfig:
+    host: '*'
+    path: /analysis/range_keyword
+  methods:
+  - GET
