@@ -10,10 +10,10 @@ spec:
   host: ""
   ingressconfig:
     host: '*'
-    path: /analysis/range_keyword
+    path: /database/range_keyword
     tls: ""
   methods:
     - GET
   prefix: ""
-  relativeurl: /analysis/range_keyword
+  relativeurl: /database/range_keyword
 
