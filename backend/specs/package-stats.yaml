@@ -5,8 +5,12 @@ metadata:
 spec:
   environment:
     name: python39
+
   source:
-    type: ArchiveUploadSpec
-    include:
-      - stats.zip
-  buildcmd: ./build.sh
+    type: git
+    url: "https://gitlab.unimelb.edu.au/HENGJIN/comp90024-2025-35"
+    branch: "main"
+    subpath: "backend/database"  
+  buildcmd: |
+    pip install --no-cache-dir -r requirements.txt
+
