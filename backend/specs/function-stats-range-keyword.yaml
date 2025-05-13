@@ -1,0 +1,11 @@
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  name: stats-range-keyword
+spec:
+  environment:
+    name: python39
+  package:
+    packageref:
+      name: demo
+    functionName: analysis.stats_range_keyword
