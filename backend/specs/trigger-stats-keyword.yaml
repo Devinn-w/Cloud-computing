@@ -3,10 +3,16 @@ kind: HTTPTrigger
 metadata:
   name: stats-keyword-trigger
 spec:
+  createingress: false
   functionref:
     name: stats-keyword
+    type: name
+  host: ""
   ingressconfig:
     host: '*'
     path: /analysis/keyword
+    tls: ""
   methods:
-  - GET
+    - GET
+  prefix: ""
+  relativeurl: /analysis/keyword
