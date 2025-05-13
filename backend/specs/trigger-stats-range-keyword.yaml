@@ -3,10 +3,17 @@ kind: HTTPTrigger
 metadata:
   name: stats-range-keyword-trigger
 spec:
+  createingress: false
   functionref:
     name: stats-range-keyword
+    type: name
+  host: ""
   ingressconfig:
     host: '*'
     path: /analysis/range_keyword
+    tls: ""
   methods:
-  - GET
+    - GET
+  prefix: ""
+  relativeurl: /analysis/range_keyword
+
