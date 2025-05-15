@@ -16,7 +16,6 @@ This application is deployed on the NeCTAR Research Cloud using a **Kubernetes**
 ### Project presentation link
 Gitlab Repository: https://gitlab.unimelb.edu.au/HENGJIN/comp90024-2025-35  
 YouTube Video: https://youtu.be/yourvideo  
-Frontend System: https://colab.research.google.com/drive/125dMmKZG59QFcQjnnqvmeqTu4rKSI-5E?authuser=0  
 
 ### Structure
 ```
@@ -24,22 +23,18 @@ Frontend System: https://colab.research.google.com/drive/125dMmKZG59QFcQjnnqvmeq
 ├── backend/                  # Application back-end source code
 │   ├── rharvester/           # Reddit data collector
 │   ├── mharvester/           # Mastodon data collector
+│   ├── database/             # ES queries used for Frontend
 │   ├── specs/                # YAML specifications
 │   └── README.md             # Instructions on how to run
 ├── frontend/                 # Source code of the client part of the application
 │   └── trump_tariff_analysis.ipynb  
 ├── test                      # Application back-end automated testing of the source code
-│   ├── 
-│   └── 
-├── database                  # ES type mappings, queries, etc
-│   ├── 
-│   └── 
-├── data                      # Any data you want to put in the code repo
-│   ├── 
-│   └── 
+│   ├── localtest.py
+│   └── localtest_result.pdf
+├── data                      # Reference data
 ├── docs                      # Documentation
-│   ├── Report.pdf
-│   └── Binzhen Wei's notes/
+│   ├── Other reference docs
+│   └── Report.pdf
 └── README.md                 # This file
 ```
 
@@ -50,11 +45,7 @@ excluding the stanrdard seyup covered in the workshop
 how to use the client
 
 ## Note on Git History
-
-During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.
-
-Although I have manually restored all the original files, please note that the previous commit history has been lost. As a result, individual commit records are no longer available.
-
-I will make sure to acknowledge everyone's contributions in the final report.
-
+During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
+Although I have manually restored all the original files, please note that the previous commit history has been lost. As a result, individual commit records are no longer available.  
+I will make sure to acknowledge everyone's contributions in the final report.  
 — Zijing Li, 7 May 2025
