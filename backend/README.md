@@ -1,5 +1,7 @@
+## Backend System Overview
 
-
+### Structure
+```
 .
 ├── backend/                  # Application back-end source code
 │   ├── rharvester/           # Reddit data collector
@@ -11,3 +13,5 @@
 │   ├── stats_mastodon/       # Mastodon route query
 │   ├── stats_reddit/         # Reddit route query
 │   └── README.md             # Instructions on how to run
+
+```
