@@ -23,7 +23,7 @@ YouTube Video: https://youtu.be/yourvideo
 ├── backend/                  # Application back-end source code
 ├── frontend/                 # Source code of the client part of the application
 │   └── trump_tariff_analysis.ipynb  
-├── test                      # Application back-end automated testing of the source code
+├── test                      # Application back-end testing of the source code
 ├── data                      # Reference data
 ├── docs                      # Documentation
 │   └── Report.pdf
