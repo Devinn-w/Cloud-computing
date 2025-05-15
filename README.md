@@ -1,7 +1,7 @@
 # COMP90024 Team35 - Big Data Analytics on the Cloud
 
 ## Project Topic
-**What do Australians think of Donald Trump and the use of tariffs across different social media platforms?**
+**What do Australians think of Donald Trump and the use of tariffs in Mastodon?**
 
 This project collects, stores, analyzes and visualizes public sentiment from Reddit and Mastodon posts related to Donald Trump and tariffs, specifically focusing on content from Australian users or communities.
 
