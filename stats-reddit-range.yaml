@@ -1,0 +1,12 @@
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  name: stats-reddit-trigger
+spec:
+  createingress: false
+  functionref:
+    name: stats-reddit       
+    type: name
+  methods:
+    - GET
+  relativeurl: /analysis/reddit  
