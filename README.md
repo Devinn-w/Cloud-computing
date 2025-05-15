@@ -21,19 +21,11 @@ YouTube Video: https://youtu.be/yourvideo
 ```
 .
 ├── backend/                  # Application back-end source code
-│   ├── rharvester/           # Reddit data collector
-│   ├── mharvester/           # Mastodon data collector
-│   ├── database/             # ES queries used for Frontend
-│   ├── specs/                # YAML specifications
-│   └── README.md             # Instructions on how to run
 ├── frontend/                 # Source code of the client part of the application
 │   └── trump_tariff_analysis.ipynb  
 ├── test                      # Application back-end automated testing of the source code
-│   ├── localtest.py
-│   └── localtest_result.pdf
 ├── data                      # Reference data
 ├── docs                      # Documentation
-│   ├── Other reference docs
 │   └── Report.pdf
 └── README.md                 # This file
 ```
