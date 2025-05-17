@@ -61,7 +61,8 @@ def main():
             return {
                 "user": src.get("user", "unknown"),
                 "content": src.get("content", "[No content]"),
-                "sentiment_score": round(src.get("sentiment_score", 0), 4)
+                "sentiment_score": round(src.get("sentiment_score", 0), 4),
+                "matched_keywords": src.get("matched_keywords", [])
             }
 
         most_pos = extract_doc(res_pos["hits"]["hits"])
