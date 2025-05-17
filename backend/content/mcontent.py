@@ -1,5 +1,5 @@
 from elasticsearch8 import Elasticsearch
-from flask import request, jsonify
+from flask import request, jsonify, current_app
 import json
 
 def read_credential(name: str) -> str:
