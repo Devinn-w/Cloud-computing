@@ -28,6 +28,7 @@ def main():
     
     if keyword_str:
         keyword_list = [kw.strip() for kw in keyword_str.split(",") if kw.strip()]
+        print("Keyword list received:", keyword_list)
         if keyword_list:
             query_filter.append({"terms": {"matched_keywords": keyword_list}})
 
