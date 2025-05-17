@@ -32,6 +32,7 @@ def main() -> Dict[str, Any]:
     start: Optional[str] = req.headers.get("X-Fission-Params-Start")
     end: Optional[str] = req.headers.get("X-Fission-Params-End")
     keyword: Optional[str] = req.headers.get("X-Fission-Params-Keyword")
+    exclude: Optional[str] = req.headers.get("X-Fission-Params-Exclude", "")
     
     index: str = req.headers.get("X-Fission-Params-Source", "mastodon-posts")
 
@@ -40,6 +41,18 @@ def main() -> Dict[str, Any]:
         filters.append(json.loads(date_range_expr.substitute(start=start, end=end)))
     if keyword:
         filters.append(json.loads(keyword_expr.substitute(keyword=keyword)))
+    if exclude:
+        exs = [e.strip() for e in exclude.split(",") if e.strip()]
+        filters.append({
+            "bool": {
+                "must_not": [
+                    {"term": {"matched_keywords": e}} for e in exs
+                ]
+            }
+        })
+    elif keyword:
+        filters.append({"match": {"matched_keywords": keyword}})
+
     filters.append({
         "range": {
             "sentiment_score": {
