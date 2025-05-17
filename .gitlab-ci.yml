@@ -35,6 +35,8 @@ deploy-fission-specs:
     - cd rdata && chmod +x build.sh && zip -r rstats.zip . && mv rstats.zip ../ && cd ..
     - echo "Zipping mastodon_timeseries_analyze..."
     - cd timeseries && chmod +x build.sh && zip -r timestats.zip . && mv timestats.zip ../ && cd ..
+    - echo "Zipping mastodon_content..."
+    - cd content && chmod +x build.sh && zip -r mcontent.zip . && mv mcontent.zip ../ && cd ..
 
     - fission httptrigger delete --name subredditstats || true
     - fission httptrigger delete --name stats-reddit-date-keyword-trigger || true
@@ -46,6 +48,7 @@ deploy-fission-specs:
     - fission httptrigger delete --name stats-mastodon-header-trigger || true
     - fission httptrigger delete --name stats-reddit-header-trigger || true
     - fission httptrigger delete --name stats-mastodon-timeseries-trigger || true
+    - fission httptrigger delete --name content-mastodon-header-trigger || true
 
     - echo "Validating specs..."
     - KUBECONFIG=~/.kube/config fission spec validate
