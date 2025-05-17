@@ -14,8 +14,12 @@ deploy-fission-specs:
     - echo "Downloading Fission CLI..."
     - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
     - chmod +x fission && mv fission /usr/local/bin/
-    - cd backend
 
+    - mkdir -p /root/.kube
+    - echo "$KUBECONFIG_DATA" > /root/.kube/config
+    - chmod 600 /root/.kube/config
+    
+    - cd backend
     # Automatically compress each module
     - echo "Zipping mharvester..."
     - cd mharvester && chmod +x build.sh && zip -r mharvest.zip . && mv mharvest.zip ../ && cd ..
