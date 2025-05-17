@@ -24,8 +24,16 @@ def main():
         return {"error": "Missing X-Fission-Params-Start or End"}
     
     query_filter = [
-        {"range": {"created_at": {"gte": start, "lte": end}}}
+        {
+            "range": {
+                "created_at": {
+                    "gte": f"{start} 00:00:00",
+                    "lte": f"{end} 23:59:59"
+                }
+            }
+        }
     ]
+
     
     if keyword_str:
         keyword_list = [kw.strip() for kw in keyword_str.split(",") if kw.strip()]
