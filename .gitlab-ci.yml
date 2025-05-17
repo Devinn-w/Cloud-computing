@@ -38,6 +38,9 @@ deploy-fission-specs:
     - fission httptrigger delete --name stats-reddit-date-keyword-trigger || true
     - fission httptrigger delete --name stats-reddit-keyword-trigger || true
     - fission httptrigger delete --name stats-reddit-date-trigger || true
+    - fission httptrigger delete --name stats-mastodon-date-keyword-trigger || true
+    - fission httptrigger delete --name stats-mastodon-keyword-trigger || true
+    - fission httptrigger delete --name stats-mastodon-date-trigger || true
 
     - echo "Validating specs..."
     - KUBECONFIG=~/.kube/config fission spec validate
