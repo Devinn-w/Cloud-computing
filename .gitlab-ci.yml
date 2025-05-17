@@ -8,10 +8,23 @@ variables:
 
 deploy-fission-specs:
   stage: deploy
-  image: fission/fission-cli
+  image: alpine:latest
   script:
+    - apk add --no-cache curl bash zip
+    - echo "Downloading Fission CLI..."
+    - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
+    - chmod +x fission && mv fission /usr/local/bin/
     - cd backend
+
+    # Automatically compress each module
+    - echo "Zipping mharvester..."
+    - cd mharvester && zip -r mharvest.zip . && mv mharvest.zip ../ && cd ..
+    - echo "Zipping rharvester..."
+    - cd rharvester && zip -r rharvest.zip . && mv rharvest.zip ../ && cd ..
+
+    - echo "Validating specs..."
     - fission spec validate
+    - echo "Applying specs..."
     - fission spec apply --specdir specs --wait
 
 verify-es-ingest:
