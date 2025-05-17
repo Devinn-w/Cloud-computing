@@ -4,7 +4,6 @@ stages:
 
 variables:
   KUBECONFIG: /root/.kube/config
-  FISSION_URL: http://localhost:9090
 
 before_script:
   - apk add --no-cache curl bash
@@ -33,9 +32,9 @@ deploy-fission-specs:
     - fission httptrigger delete --name subredditstats || true
 
     - echo "Validating specs..."
-    - KUBECONFIG=~/.kube/config fission spec validate
+    - KUBECONFIG=~/.kube/config fission spec validate --specdir backend/specs
     - echo "Applying specs..."
-    - KUBECONFIG=~/.kube/config fission spec apply --specdir specs --wait
+    - KUBECONFIG=~/.kube/config fission spec apply --specdir backend/specs --wait
 
 verify-es-ingest:
   stage: verify
