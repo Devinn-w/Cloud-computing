@@ -18,9 +18,9 @@ deploy-fission-specs:
 
     # Automatically compress each module
     - echo "Zipping mharvester..."
-    - cd mharvester && zip -r mharvest.zip . && mv mharvest.zip ../ && cd ..
+    - cd mharvester && chmod +x build.sh && zip -r mharvest.zip . && mv mharvest.zip ../ && cd ..
     - echo "Zipping rharvester..."
-    - cd rharvester && zip -r rharvest.zip . && mv rharvest.zip ../ && cd ..
+    - cd rharvester && chmod +x build.sh && zip -r rharvest.zip . && mv rharvest.zip ../ && cd ..
 
     - echo "Validating specs..."
     - fission spec validate
