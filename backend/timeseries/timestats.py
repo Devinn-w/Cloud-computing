@@ -83,14 +83,9 @@ def main() -> Dict[str, Any]:
             }
         }
     }
-
-    current_app.logger.info(
-        f'Executing keyword aggregation for '
-        f'Date: {date}' +
-        (f' Keyword: {keyword}' if keyword else ''))
     
     try:
-        res = es.search(index=index, body=body)
+        res = es.search(index=index, body=query_body)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
