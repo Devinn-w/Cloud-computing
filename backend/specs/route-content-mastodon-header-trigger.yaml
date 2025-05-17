@@ -1,0 +1,22 @@
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  creationTimestamp: null
+  name: content-mastodon-header-trigger
+spec:
+  createingress: true
+  functionref:
+    functionweights: null
+    name: mcontent
+    type: name
+  host: ""
+  ingressconfig:
+    annotations: null
+    host: '*'
+    path: /analysis/mastodon/content
+    tls: ""
+  method: ""
+  methods:
+  - GET
+  prefix: ""
+  relativeurl: /analysis/mastodon/content
