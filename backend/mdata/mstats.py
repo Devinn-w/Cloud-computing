@@ -59,20 +59,15 @@ def main() -> Dict[str, Any]:
         },
         "aggs": {
             "keywords": {
-                "terms": {
-                    "field": "matched_keywords"
-                },
+                "terms": {"field": "matched_keywords"},
                 "aggs": {
                     "avg_sentiment": {
-                        "avg": {
-                            "script": {
-                                "source": "Double.parseDouble(doc['sentiment_score'].value)"
-                            }
-                        }
+                        "avg": {"field": "sentiment_score"}
                     }
                 }
             }
-        }
+        },
+        "size": 0
     }
 
     current_app.logger.info(f"Querying index: {index}, from {start} to {end}, keyword={keyword}")
