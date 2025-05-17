@@ -17,16 +17,36 @@ def main():
     req = request
     start = request.headers.get("X-Fission-Params-Start")
     end   = request.headers.get("X-Fission-Params-End")
+    keyword_str = request.headers.get("X-Fission-Params-Keyword")
     
     if not start or not end:
         return {"error": "Missing X-Fission-Params-Start or End"}
+    
+    query_filter = [
+        {"range": {"created_at": {"gte": start, "lte": end}}}
+    ]
+    
+    if keyword_str:
+        keyword_list = [kw.strip() for kw in keyword_str.split(",") if kw.strip()]
+        if keyword_list:
+            query_filter.append({"terms": {"matched_keywords": keyword_list}})
+
+    base_query = {
+        "query": {
+            "bool": {
+                "must": query_filter
+            }
+        },
+        "size": 1
+    }
 
     try:
+        
         es = Elasticsearch(
             "https://elasticsearch-master.elastic.svc.cluster.local:9200",
             verify_certs=False,
             ssl_show_warn=False,
-            basic_auth=("elastic", "elastic")
+            basic_auth=(es_user, es_pass)
         )
 
         index = "mastodon-posts"
