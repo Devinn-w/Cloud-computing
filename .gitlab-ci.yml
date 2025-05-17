@@ -6,6 +6,11 @@ variables:
   KUBECONFIG: /root/.kube/config
   FISSION_URL: http://localhost:9090
 
+before_script:
+  - mkdir -p ~/.kube
+  - echo "$KUBECONFIG_DATA" > ~/.kube/config
+  - chmod 600 ~/.kube/config
+
 deploy-fission-specs:
   stage: deploy
   image: alpine:latest
@@ -14,11 +19,6 @@ deploy-fission-specs:
     - echo "Downloading Fission CLI..."
     - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
     - chmod +x fission && mv fission /usr/local/bin/
-
-    - mkdir -p /root/.kube
-    - echo "$KUBECONFIG_DATA" > /root/.kube/config
-    - chmod 600 /root/.kube/config
-    - export KUBECONFIG=/root/.kube/config
     
     - cd backend
     # Automatically compress each module
@@ -28,9 +28,9 @@ deploy-fission-specs:
     - cd rharvester && chmod +x build.sh && zip -r rharvest.zip . && mv rharvest.zip ../ && cd ..
 
     - echo "Validating specs..."
-    - fission spec validate
+    - KUBECONFIG=~/.kube/config fission spec validate
     - echo "Applying specs..."
-    - fission spec apply --specdir specs --wait
+    - KUBECONFIG=~/.kube/config fission spec apply --specdir specs --wait
 
 verify-es-ingest:
   stage: verify
