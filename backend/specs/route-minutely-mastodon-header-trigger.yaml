@@ -1,0 +1,22 @@
+apiVersion: fission.io/v1
+kind: HTTPTrigger
+metadata:
+  creationTimestamp: null
+  name: minutely-mastodon-header-trigger
+spec:
+  createingress: false
+  functionref:
+    functionweights: null
+    name: minutely
+    type: name
+  host: ""
+  ingressconfig:
+    annotations: null
+    host: '*'
+    path: /analysis/mastodon/minutes
+    tls: ""
+  method: ""
+  methods:
+  - GET
+  prefix: ""
+  relativeurl: /analysis/mastodon/minutes
