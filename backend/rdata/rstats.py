@@ -3,8 +3,6 @@ from elasticsearch8 import Elasticsearch
 from string import Template
 from typing import Dict, Any, Optional, List
 
-date_range_expr = Template("{\"range\": {\"created_at\": {\"gte\": \"${start} 00:00:00\", \"lte\": \"${end} 23:59:59\"}}}")
-keyword_expr = Template("{\"match\": {\"matched_keywords\": \"${keyword}\"}}")
 
 def read_credential(name: str) -> str:
     try:
@@ -35,32 +33,41 @@ def main():
     index: str = headers.get("X-Fission-Params-Source", "reddit-posts")
 
     filters = []
-    if start and end:
-        filters.append(json.loads(date_range_expr.substitute(start=start, end=end)))
-    if keyword:
-        filters.append(json.loads(keyword_expr.substitute(keyword=keyword)))
-    filters.append({"range": {"sentiment_score": {"lte": 1.0}}})
 
-    if not filters:
-        return {
-            "statusCode": 400,
-            "body": json.dumps({
-                "error": "Provide X-Fission-Params-Start+X-Fission-Params-End OR X-Fission-Params-Keyword Headers"
-            })
+    if start and end:
+        filters.append({
+            "range": {
+                "created_at": {
+                    "gte": f"{start} 00:00:00",
+                    "lte": f"{end} 23:59:59"
+                }
+            }
+        })
+
+    if keyword:
+        filters.append({
+            "match": {
+                "matched_keywords": keyword
+            }
+        })
+
+    filters.append({
+        "range": {
+            "sentiment_score": {"lte": 1.0}
         }
+    })
 
     query_body = {
         "query": {"bool": {"filter": filters}},
         "aggs": {
             "keywords": {
-                "terms": {
-                    "field": "keyword",
-                    "size": 100  # optional: limit top 100
-                },
+                "terms": {"field": "matched_keywords.keyword"},
                 "aggs": {
                     "avg_sentiment": {
                         "avg": {
-                            "field": "sentiment_score"
+                            "script": {
+                                "source": "Double.parseDouble(doc['sentiment_score'].value)"
+                            }
                         }
                     }
                 }
@@ -68,7 +75,6 @@ def main():
         },
         "size": 0
     }
-
     #print(f"Querying {index} from {start} to {end}, keyword={keyword}")
 
     try:
