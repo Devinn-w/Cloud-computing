@@ -29,8 +29,10 @@ deploy-fission-specs:
     - cd rharvester && chmod +x build.sh && zip -r rharvest.zip . && mv rharvest.zip ../ && cd ..
     - echo "Zipping subredditstats..."
     - cd subredditdata && chmod +x build.sh && zip -r subredditstats.zip . && mv subredditstats.zip ../ && cd ..
-    - echo "Zipping mastodondata..."
+    - echo "Zipping mastodon_esdata..."
     - cd mdata && chmod +x build.sh && zip -r mstats.zip . && mv mstats.zip ../ && cd ..
+    - echo "Zipping reddit_esdata..."
+    - cd rdata && chmod +x build.sh && zip -r rstats.zip . && mv rstats.zip ../ && cd ..
 
     - fission httptrigger delete --name subredditstats || true
 
