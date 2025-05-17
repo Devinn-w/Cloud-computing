@@ -18,6 +18,7 @@ deploy-fission-specs:
     - mkdir -p /root/.kube
     - echo "$KUBECONFIG_DATA" > /root/.kube/config
     - chmod 600 /root/.kube/config
+    - export KUBECONFIG=/root/.kube/config
     
     - cd backend
     # Automatically compress each module
