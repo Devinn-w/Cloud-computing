@@ -65,7 +65,7 @@ def main():
         def extract_doc(hit):
             if not hit:
                 return None
-            src = hits[0].get("_source", {})
+            src = hit[0].get("_source", {})
             return {
                 "user": src.get("user", "unknown"),
                 "content": src.get("content", "[No content]"),
