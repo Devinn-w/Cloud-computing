@@ -51,15 +51,19 @@ def load_last_post_id(es_client):
         return None
 
 def main():
-    matches = 0
     """Harvest recent public posts from Mastodon timeline matching keywords."""
+    
+    matches = 0
+    
+    es_user = read_credential("ES_USERNAME")
+    es_pass = read_credential("ES_PASSWORD")
     
     # Initialize Elasticsearch client
     es_client: Elasticsearch = Elasticsearch(
         'https://elasticsearch-master.elastic.svc.cluster.local:9200', # local test
         verify_certs=False,
         ssl_show_warn=False,
-        basic_auth=('elastic', 'elastic')
+        basic_auth=(es_user, es_pass)
     )
     
     # Initialize Mastodon client with type annotation
