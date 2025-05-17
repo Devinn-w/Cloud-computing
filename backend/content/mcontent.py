@@ -51,33 +51,20 @@ def main():
         )
 
         index = "mastodon-posts"
-
-        base_query = {
-            "query": {
-                "range": {
-                    "created_at": {
-                        "gte": f"{start} 00:00:00",
-                        "lte": f"{end} 23:59:59"
-                    }
-                }
-            },
-            "size": 1
-        }
-
-        query_pos = base_query.copy()
+        
+        query_pos = json.loads(json.dumps(base_query))
         query_pos["sort"] = [{"sentiment_score": "desc"}]
-        res_pos = es.search(index=index, body=query_pos)
-        print("ES result source (POS):", res["hits"]["hits"][0]["_source"])
 
-        # Most negative
-        query_neg = base_query.copy()
+        query_neg = json.loads(json.dumps(base_query))
         query_neg["sort"] = [{"sentiment_score": "asc"}]
+
+        res_pos = es.search(index=index, body=query_pos)
         res_neg = es.search(index=index, body=query_neg)
 
         def extract_doc(hit):
             if not hit:
                 return None
-            src = hit[0]["_source"]
+            src = hits[0].get("_source", {})
             return {
                 "user": src.get("user", "unknown"),
                 "content": src.get("content", "[No content]"),
@@ -91,13 +78,12 @@ def main():
         if not most_pos and not most_neg:
             return jsonify({"message": "No matching posts found for this day."}), 404
 
-        result = {
+        return jsonify({
             "most_positive": most_pos,
             "most_negative": most_neg
-        }
-
-        return jsonify(result)
+        })
 
     except Exception as e:
         print("Exception occurred:", str(e))
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
