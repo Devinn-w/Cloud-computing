@@ -5,20 +5,18 @@ stages:
 variables:
   KUBECONFIG: /root/.kube/config
 
-before_script:
-  - apk add --no-cache curl bash
-  - echo "Downloading Fission CLI..."
-  - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
-  - chmod +x fission && mv fission /usr/local/bin/
-
-  - mkdir -p ~/.kube
-  - echo "$KUBECONFIG_DATA" > ~/.kube/config
-  - chmod 600 ~/.kube/config
-
 deploy-fission-specs:
   stage: deploy
   image: alpine:latest
   script:
+    - apk add --no-cache curl bash
+    - echo "Downloading Fission CLI..."
+    - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
+    - chmod +x fission && mv fission /usr/local/bin/
+
+    - mkdir -p ~/.kube
+    - echo "$KUBECONFIG_DATA" > ~/.kube/config
+    - chmod 600 ~/.kube/config
     - cd backend
 
     # Automatically compress each module
@@ -30,13 +28,12 @@ deploy-fission-specs:
     - echo "Zipping subredditstats..."
     - cd subredditdata && chmod +x build.sh && zip -r subredditstats.zip . && mv subredditstats.zip ../ && cd ..
     - echo "Cleaning up previous route (if exists)..."
-    - fission httptrigger delete --name subredditstats || true
+    - KUBECONFIG=~/.kube/config fission httptrigger delete --name subredditstats || true
 
-    - cd backend
     - echo "Validating specs..."
-    - fission spec validate --specdir specs
+    - KUBECONFIG=~/.kube/config fission spec validate --specdir specs
     - echo "Applying specs..."
-    - fission spec apply --specdir specs --wait
+    - KUBECONFIG=~/.kube/config fission spec apply --specdir specs --wait
 
 verify-es-ingest:
   stage: verify
@@ -50,7 +47,16 @@ test-fission-functions:
   stage: verify
   image: alpine:latest
   script:
+    - apk add --no-cache curl bash
+    - echo "Downloading Fission CLI..."
+    - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
+    - chmod +x fission && mv fission /usr/local/bin/
+
+    - mkdir -p ~/.kube
+    - echo "$KUBECONFIG_DATA" > ~/.kube/config
+    - chmod 600 ~/.kube/config
+
     - echo "Testing functions internally..."
-    - fission function test --name mharvest
-    - fission function test --name rharvest
+    - KUBECONFIG=~/.kube/config fission function test --name mharvest
+    - KUBECONFIG=~/.kube/config fission function test --name rharvest
 
