@@ -1,4 +1,3 @@
-import logging
 import json
 from typing import List, Optional, Dict, Any
 from flask import current_app, request, jsonify
@@ -29,9 +28,11 @@ def main() -> Dict[str, Any]:
     )
 
     req = request
+
     start: Optional[str] = req.headers.get("X-Fission-Params-Start")
     end: Optional[str] = req.headers.get("X-Fission-Params-End")
     keyword: Optional[str] = req.headers.get("X-Fission-Params-Keyword")
+    
     index: str = req.headers.get("X-Fission-Params-Source", "mastodon-posts")
 
     filters = []
@@ -47,36 +48,35 @@ def main() -> Dict[str, Any]:
         }
     })
 
-    if not filters:
-        return jsonify({"error": "Must specify at least start+end or keyword"}), 400
+    if not (start and end) and not keyword:
+        return jsonify({"error": "Please Provide X-Fission-Params-Start+X-Fission-Params-End OR X-Fission-Params-Keyword in Headers"}), 400
 
     query_body = {
-    "query": {
-        "bool": {
-            "filter": filters
-        }
-    },
-    "aggs": {
-        "keywords": {
-            "terms": {
-                "field": "matched_keywords"
-            },
-            "aggs": {
-                "avg_sentiment": {
-                    "avg": {
-                        "script": {
-                            "source": "Double.parseDouble(doc['sentiment_score'].value)"
+        "query": {
+            "bool": {
+                "filter": filters
+            }
+        },
+        "aggs": {
+            "keywords": {
+                "terms": {
+                    "field": "matched_keywords"
+                },
+                "aggs": {
+                    "avg_sentiment": {
+                        "avg": {
+                            "script": {
+                                "source": "Double.parseDouble(doc['sentiment_score'].value)"
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
-
-
 
     current_app.logger.info(f"Querying index: {index}, from {start} to {end}, keyword={keyword}")
+    
     try:
         res: Dict[str, Any] = es_client.search(index=index, body=query_body)
         buckets: List[Dict[str, Any]] = res.get("aggregations", {}).get("keywords", {}).get("buckets", [])
