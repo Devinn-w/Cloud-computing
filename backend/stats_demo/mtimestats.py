@@ -44,27 +44,20 @@ def main() -> Dict[str, Any]:
     )
 
     req = request
-    date: Optional[str] = req.headers.get("X-Fission-Params-Date")
-    keyword: Optional[str] = req.headers.get("X-Fission-Params-Keyword")
+    start = req.headers.get("X-Fission-Params-Start")
+    end   = req.headers.get("X-Fission-Params-End")
+    keyword = req.headers.get("X-Fission-Params-Keyword", "")
+    index = req.headers.get("X-Fission-Params-Source", "mastodon-posts")
 
-    filters = []
-    if date:
-        filters.append(json.loads(date_expr.substitute(date=date)))
+    if not start or not end:
+        return jsonify({"error": "X-Fission-Params-Start AND X-Fission-Params-End Provided At same time"}), 400
+    
+    filters = [
+        {"range": {"created_at": {"gte": f"{start} 00:00:00", "lte": f"{end} 23:59:59"}}},
+        {"range": {"sentiment_score": {"gte": -1.0, "lte": 1.0}}}
+    ]
     if keyword:
-        filters.append(json.loads(keyword_expr.substitute(keyword=keyword)))
-
-    # Eliminate abnormal sentiment values （score = 2.0）
-    filters.append({
-        "range": {
-            "sentiment_score": {
-                "lte": 1.0
-            }
-        }
-    })
-
-    if not filters:
-        return {"error": "Must specify at least one of 'date' or 'keyword'"}, 400
-
+        filters.append({"match": {"matched_keywords": keyword}})
 
     # Build dynamic query based on parameters
     query_body = {
@@ -74,9 +67,11 @@ def main() -> Dict[str, Any]:
             }
         },
         "aggs": {
-            "keywords": {
-                "terms": {
-                    "field": "matched_keywords",
+            "by_date": {
+                "date_histogram": {
+                    "field": "created_at",
+                    "calendar_interval": "day",
+                    "format": "yyyy-MM-dd"
                 },
                 "aggs": {
                     "avg_sentiment": {
@@ -95,25 +90,17 @@ def main() -> Dict[str, Any]:
         (f' Keyword: {keyword}' if keyword else ''))
     
     try:
-        res: Dict[str, Any] = es_client.search(
-            index='mastodon-posts',
-            body=query_body
-        )
-
-        agg_data: Dict[str, Any] = res.get('aggregations', {})
-        keywords_agg: Dict[str, Any] = agg_data.get('keywords', {})
-        buckets: List[Dict[str, Any]] = keywords_agg.get('buckets', [])
-
-        result = []
-        for bucket in buckets:
-            result.append({
-                "keyword": bucket["key"],
-                "count": bucket["doc_count"],
-                "avg_sentiment": round(bucket["avg_sentiment"]["value"] or 0.0, 3)
-            })
-
-        return jsonify(result)
-
+        res = es.search(index=index, body=body)
     except Exception as e:
-        current_app.logger.error(f"Aggregation failed: {e}")
-        return {"error": str(e)}, 500
+        return jsonify({"error": str(e)}), 500
+
+    buckets = res["aggregations"]["by_date"]["buckets"]
+    result = []
+    for b in buckets:
+        date = b["key_as_string"]
+        avg = b["avg_sentiment"]["value"]
+        result.append({
+            "created_at": date,
+            "avg_sentiment": round(avg, 4)
+        })
+    return jsonify(result)
