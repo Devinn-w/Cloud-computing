@@ -47,6 +47,7 @@ def main() -> Dict[str, Any]:
     start = req.headers.get("X-Fission-Params-Start")
     end   = req.headers.get("X-Fission-Params-End")
     keyword = req.headers.get("X-Fission-Params-Keyword", "")
+    exclude = req.headers.get("X-Fission-Params-Exclude", "")
     index = req.headers.get("X-Fission-Params-Source", "mastodon-posts")
 
     if not start or not end:
@@ -57,6 +58,17 @@ def main() -> Dict[str, Any]:
         {"range": {"sentiment_score": {"gte": -1.0, "lte": 1.0}}}
     ]
     if keyword:
+        filters.append({"match": {"matched_keywords": keyword}})
+    if exclude:
+        exs = [e.strip() for e in exclude.split(",") if e.strip()]
+        filters.append({
+            "bool": {
+                "must_not": [
+                    {"term": {"matched_keywords": e}} for e in exs
+                ]
+            }
+        })
+    elif keyword:
         filters.append({"match": {"matched_keywords": keyword}})
 
     # Build dynamic query based on parameters
