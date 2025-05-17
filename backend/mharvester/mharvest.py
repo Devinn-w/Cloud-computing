@@ -15,7 +15,7 @@ except RuntimeError:
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-KEYWORDS = ["donald trump", "trump", "make america great again","potus","trumpism","trumpian","45th president"]
+KEYWORDS = ["donald trump", "trump", "tariff", "tariffs", "us-australia trade", "trade war","make america great again","trumpism" ,"trumpian","45th president"]
 
 def read_credential(name: str) -> str:
     try:
