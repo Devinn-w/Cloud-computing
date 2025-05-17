@@ -8,13 +8,19 @@ from elasticsearch8 import Elasticsearch
 from analyzer.sentiment import analyze_sentiment
 from html import unescape
 
-# 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 # Keywords to match
-KEYWORDS = ["Donald Trump", "Trump", "tariff", "tariffs"]
+KEYWORDS = ["donald trump", "tariff", "tariffs","trump", "make america great again","trumpism","trumpian","45th president"]
+
+def read_credential(name: str) -> str:
+    try:
+        with open(f"/configs/default/shared-data/{name}", "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        print(f"Credential file {name} not found")
+        return ""
 
 # Simple keyword match
 def contains_keywords(text: str) -> bool:
@@ -49,13 +55,15 @@ def save_last_post_id(es_client, last_id: str):
 # Main function
 def main():
     matches = 0
+    es_user = read_credential("ES_USERNAME")
+    es_pass = read_credential("ES_PASSWORD")
 
     # Elasticsearch client 
     es_client: Elasticsearch = Elasticsearch(
     'https://elasticsearch-master.elastic.svc.cluster.local:9200',
     verify_certs=False,
     ssl_show_warn=False,
-    basic_auth=('elastic', 'elastic')
+    basic_auth=(es_user, es_pass)
     )
 
     # Reddit API
