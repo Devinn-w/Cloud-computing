@@ -44,7 +44,9 @@ def main():
     if not filters:
         return {
             "statusCode": 400,
-            "body": json.dumps({"error": "Must specify at least start+end or keyword"})
+            "body": json.dumps({
+                "error": "Provide X-Fission-Params-Start+X-Fission-Params-End OR X-Fission-Params-Keyword Headers"
+            })
         }
 
     query_body = {
@@ -60,10 +62,11 @@ def main():
                             }
                         }
                     }
-                }，
-                "size": 0
+                }
+                
             }
-        }
+        },
+        "size": 0
     }
 
     #print(f"Querying {index} from {start} to {end}, keyword={keyword}")
