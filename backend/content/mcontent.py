@@ -36,8 +36,8 @@ def main():
             "query": {
                 "range": {
                     "created_at": {
-                        "gte": f"{start}T00:00:00",
-                        "lte": f"{end}T23:59:59"
+                        "gte": f"{start} 00:00:00",
+                        "lte": f"{end} 23:59:59"
                     }
                 }
             },
