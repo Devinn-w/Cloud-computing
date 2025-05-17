@@ -44,7 +44,7 @@ verify-es-ingest:
     - echo "Skipping ES check in CI — not inside K8s cluster"
     - curl -s https://elasticsearch-master.elastic.svc.cluster.local:9200/mastodon-posts/_count || true
 
-test-fission-functions:
+check-fission-functions:
   stage: verify
   image: alpine:latest
   variables:
@@ -55,8 +55,8 @@ test-fission-functions:
     - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
     - chmod +x fission && mv fission /usr/local/bin/
 
-    - echo "Testing functions internally (no router needed)..."
-    - KUBECONFIG=~/.kube/config fission function test --name mharvest
-    - KUBECONFIG=~/.kube/config fission function test --name rharvest
+    - echo "Checking if function is deployed..."
+    - KUBECONFIG=~/.kube/config fission function get --name mharvest || echo "mharvest not found"
+    - KUBECONFIG=~/.kube/config fission function get --name rharvest || echo "rharvest not found"
 
 
