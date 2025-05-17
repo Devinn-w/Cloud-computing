@@ -52,7 +52,6 @@ def main():
 
         index = "mastodon-posts"
 
-        # Shared base query for time range
         base_query = {
             "query": {
                 "range": {
@@ -65,10 +64,10 @@ def main():
             "size": 1
         }
 
-        # Most positive
         query_pos = base_query.copy()
         query_pos["sort"] = [{"sentiment_score": "desc"}]
         res_pos = es.search(index=index, body=query_pos)
+        print("ES result source (POS):", res["hits"]["hits"][0]["_source"])
 
         # Most negative
         query_neg = base_query.copy()
@@ -88,6 +87,9 @@ def main():
 
         most_pos = extract_doc(res_pos["hits"]["hits"])
         most_neg = extract_doc(res_neg["hits"]["hits"])
+
+        if not most_pos and not most_neg:
+            return jsonify({"message": "No matching posts found for this day."}), 404
 
         result = {
             "most_positive": most_pos,
