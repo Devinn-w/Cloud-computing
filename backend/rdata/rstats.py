@@ -32,7 +32,7 @@ def main():
     start: Optional[str] = headers.get("X-Fission-Params-Start")
     end: Optional[str] = headers.get("X-Fission-Params-End")
     keyword: Optional[str] = headers.get("X-Fission-Params-Keyword")
-    index: str = headers.get("X-Fission-Params-Source", "mastodon-posts")
+    index: str = headers.get("X-Fission-Params-Source", "reddit-posts")
 
     filters = []
     if start and end:
@@ -48,24 +48,25 @@ def main():
         }
 
     query_body = {
-    "query": {"bool": {"filter": filters}},
-    "aggs": {
-        "keywords": {
-            "terms": {"field": "matched_keywords.keyword"},
-            "aggs": {
-                "avg_sentiment": {
-                    "avg": {
-                        "script": {
-                            "source": "Double.parseDouble(doc['sentiment_score'].value)"
+        "query": {"bool": {"filter": filters}},
+        "aggs": {
+            "keywords": {
+                "terms": {"field": "matched_keywords"},
+                "aggs": {
+                    "avg_sentiment": {
+                        "avg": {
+                            "script": {
+                                "source": "Double.parseDouble(doc['sentiment_score'].value)"
+                            }
                         }
                     }
-                }
+                }，
+                "size": 0
             }
         }
     }
-}
 
-    print(f"Querying {index} from {start} to {end}, keyword={keyword}")
+    #print(f"Querying {index} from {start} to {end}, keyword={keyword}")
 
     try:
         res = es_client.search(index=index, body=query_body)
