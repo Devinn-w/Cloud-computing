@@ -15,7 +15,15 @@ except RuntimeError:
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
 
-KEYWORDS = ["donald trump", "trump", "make america great again", "trumpism","trumpian","45th president"]
+KEYWORDS = ["donald trump", "trump", "make america great again","potus","trumpism","trumpian","45th president"]
+
+def read_credential(name: str) -> str:
+    try:
+        with open(f"/configs/default/shared-data/{name}", "r") as f:
+            return f.read().strip()
+    except FileNotFoundError:
+        print(f"Credential file {name} not found")
+        return ""
 
 def remove_html_tags(text: str) -> str:
     clean = re.compile('<.*?>')
