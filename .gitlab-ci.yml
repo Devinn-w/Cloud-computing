@@ -50,11 +50,12 @@ test-fission-functions:
   variables:
     FISSION_URL: "http://127.0.0.1:9090"
   script:
-    - apk add --no-cache curl jq
-    - curl -s -X POST "$FISSION_URL/mharvest" | jq .
-    - curl -s -X POST "$FISSION_URL/rharvest" | jq .
+    - apk add --no-cache curl bash jq
+    - echo "Downloading Fission CLI..."
+    - curl -Lo fission https://github.com/fission/fission/releases/download/v1.21.0/fission-v1.21.0-linux-amd64
+    - chmod +x fission && mv fission /usr/local/bin/
 
-    - echo "Testing functions internally..."
+    - echo "Testing functions internally (no router needed)..."
     - KUBECONFIG=~/.kube/config fission function test --name mharvest
     - KUBECONFIG=~/.kube/config fission function test --name rharvest
 
