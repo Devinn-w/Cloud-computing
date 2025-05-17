@@ -1,5 +1,6 @@
 from elasticsearch8 import Elasticsearch
 from flask import request, jsonify
+import json
 
 def read_credential(name: str) -> str:
     path = f"/configs/default/shared-data/{name}"
@@ -85,5 +86,4 @@ def main():
 
     except Exception as e:
         print("Exception occurred:", str(e))
-        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
