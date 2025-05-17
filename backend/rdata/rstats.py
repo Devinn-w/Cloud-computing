@@ -57,13 +57,10 @@ def main():
                 "aggs": {
                     "avg_sentiment": {
                         "avg": {
-                            "script": {
-                                "source": "Double.parseDouble(doc['sentiment_score'].value)"
-                            }
+                            "field": "sentiment_score"
                         }
                     }
                 }
-                
             }
         },
         "size": 0
