@@ -35,6 +35,9 @@ deploy-fission-specs:
     - cd rdata && chmod +x build.sh && zip -r rstats.zip . && mv rstats.zip ../ && cd ..
 
     - fission httptrigger delete --name subredditstats || true
+    - fission httptrigger delete --name stats-reddit-date-keyword-trigger || true
+    - fission httptrigger delete --name stats-reddit-keyword-trigger || true
+    - fission httptrigger delete --name stats-reddit-date-trigger || true
 
     - echo "Validating specs..."
     - KUBECONFIG=~/.kube/config fission spec validate
