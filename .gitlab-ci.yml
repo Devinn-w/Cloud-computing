@@ -46,10 +46,8 @@ verify-es-ingest:
 test-fission-functions:
   stage: verify
   image: alpine:latest
-  variables:
-    FISSION_URL: "http://127.0.0.1:9090"
   script:
-    - apk add --no-cache curl jq
-    - curl -s -X POST "$FISSION_URL/mharvest" | jq .
-    - curl -s -X POST "$FISSION_URL/rharvest" | jq .
+    - echo "Testing functions internally..."
+    - KUBECONFIG=~/.kube/config fission function test --name mharvest
+    - KUBECONFIG=~/.kube/config fission function test --name rharvest
 
