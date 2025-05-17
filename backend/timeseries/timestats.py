@@ -85,7 +85,7 @@ def main() -> Dict[str, Any]:
     }
     
     try:
-        res = es.search(index=index, body=query_body)
+        res = es_client.search(index=index, body=query_body)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
