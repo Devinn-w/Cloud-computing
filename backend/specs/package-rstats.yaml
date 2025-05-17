@@ -1,0 +1,25 @@
+include:
+- rstats.zip
+kind: ArchiveUploadSpec
+name: rstats-zip-PHI9
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: rstats
+spec:
+  buildcmd: ./build.sh
+  deployment:
+    checksum: {}
+  environment:
+    name: python39
+    namespace: ""
+  source:
+    checksum: {}
+    type: url
+    url: archive://rstats-zip-PHI9
+status:
+  buildstatus: pending
+  lastUpdateTimestamp: "2025-05-17T09:33:55Z"
