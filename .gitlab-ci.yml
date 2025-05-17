@@ -39,12 +39,6 @@ deploy-fission-specs:
     - cd content && chmod +x build.sh && zip -r mcontent.zip . && mv mcontent.zip ../ && cd ..
 
     - fission httptrigger delete --name subredditstats || true
-    - fission httptrigger delete --name stats-reddit-date-keyword-trigger || true
-    - fission httptrigger delete --name stats-reddit-keyword-trigger || true
-    - fission httptrigger delete --name stats-reddit-date-trigger || true
-    - fission httptrigger delete --name stats-mastodon-date-keyword-trigger || true
-    - fission httptrigger delete --name stats-mastodon-keyword-trigger || true
-    - fission httptrigger delete --name stats-mastodon-date-trigger || true
     - fission httptrigger delete --name stats-mastodon-header-trigger || true
     - fission httptrigger delete --name stats-reddit-header-trigger || true
     - fission httptrigger delete --name stats-mastodon-timeseries-trigger || true
