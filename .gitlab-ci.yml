@@ -4,6 +4,7 @@ stages:
 
 variables:
   KUBECONFIG: /root/.kube/config
+  FISSION_URL: http://localhost:9090
 
 deploy-fission-specs:
   stage: deploy
