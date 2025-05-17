@@ -32,10 +32,11 @@ deploy-fission-specs:
     - echo "Cleaning up previous route (if exists)..."
     - fission httptrigger delete --name subredditstats || true
 
+    - cd backend
     - echo "Validating specs..."
-    - KUBECONFIG=~/.kube/config fission spec validate --specdir specs
+    - fission spec validate --specdir specs
     - echo "Applying specs..."
-    - KUBECONFIG=~/.kube/config fission spec apply --specdir specs --wait
+    - fission spec apply --specdir specs --wait
 
 verify-es-ingest:
   stage: verify
@@ -50,6 +51,6 @@ test-fission-functions:
   image: alpine:latest
   script:
     - echo "Testing functions internally..."
-    - KUBECONFIG=~/.kube/config fission function test --name mharvest
-    - KUBECONFIG=~/.kube/config fission function test --name rharvest
+    - fission function test --name mharvest
+    - fission function test --name rharvest
 
