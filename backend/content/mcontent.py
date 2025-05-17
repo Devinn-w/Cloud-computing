@@ -75,4 +75,5 @@ def main():
         return jsonify(result)
 
     except Exception as e:
+        print("Exception occurred:", str(e))
         return jsonify({"error": str(e)}), 500
