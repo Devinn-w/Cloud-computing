@@ -53,7 +53,7 @@ def main():
         "query": {"bool": {"filter": filters}},
         "aggs": {
             "keywords": {
-                "terms": {"field": "matched_keywords"},
+                "terms": {"field": "keyword"},
                 "aggs": {
                     "avg_sentiment": {
                         "avg": {
