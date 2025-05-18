@@ -8,10 +8,12 @@
 │   ├── mharvester/           # Mastodon data collector
 │   ├── pharvester/           # Past data collector        
 │   ├── specs/                # YAML specifications
-│   ├── stats_mastodon/       # Mastodon route query
-│   ├── stats_reddit/         # Reddit route query
+│   ├── mdata/                # Mastodon query aggregation
+│   ├── rdata/                # Reddit query aggregation
+│   ├── subredditdata/        # Reddit query subreddit
+│   ├── content               # Mastodon query content
+│   ├── timeseries/           # Mastodon query timeseries
 │   ├── bharvester/           # Bluesky data collector
-│   ├── stats_demo/           # Base route query 
 │   └── README.md             # Instructions on how to run
 
 ```
