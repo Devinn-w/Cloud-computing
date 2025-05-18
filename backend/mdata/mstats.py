@@ -38,7 +38,15 @@ def main() -> Dict[str, Any]:
 
     filters = []
     if start and end:
-        filters.append(json.loads(date_range_expr.substitute(start=start, end=end)))
+        filters.append({
+            "range": {
+                "created_at": {
+                    "gte": f"{start} 00:00:00",
+                    "lte": f"{end} 23:59:59"
+                }
+            }
+        })
+
     if keyword:
         keywords = [k.strip() for k in keyword.split(",") if k.strip()]
         filters.append({
