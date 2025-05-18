@@ -4,8 +4,8 @@ from flask import current_app, request, jsonify
 from elasticsearch8 import Elasticsearch
 from string import Template
 
-date_range_expr = Template("{\"range\": {\"created_at\": {\"gte\": \"${start} 00:00:00\", \"lte\": \"${end} 23:59:59\"}}}")
-keyword_expr = Template("{\"match\": {\"matched_keywords\": \"${keyword}\"}}")
+#date_range_expr = Template("{\"range\": {\"created_at\": {\"gte\": \"${start} 00:00:00\", \"lte\": \"${end} 23:59:59\"}}}")
+#keyword_expr = Template("{\"match\": {\"matched_keywords\": \"${keyword}\"}}")
 
 def read_credential(name: str) -> str:
     path = f"/configs/default/shared-data/{name}"
@@ -40,7 +40,14 @@ def main() -> Dict[str, Any]:
     if start and end:
         filters.append(json.loads(date_range_expr.substitute(start=start, end=end)))
     if keyword:
-        filters.append(json.loads(keyword_expr.substitute(keyword=keyword)))
+        keywords = [k.strip() for k in keyword.split(",") if k.strip()]
+        filters.append({
+            "bool": {
+                "should": [{"match": {"matched_keywords": k}} for k in keywords],
+                "minimum_should_match": 1
+            }
+        })
+
     if exclude:
         exs = [e.strip() for e in exclude.split(",") if e.strip()]
         filters.append({
@@ -50,8 +57,6 @@ def main() -> Dict[str, Any]:
                 ]
             }
         })
-    elif keyword:
-        filters.append({"match": {"matched_keywords": keyword}})
 
     filters.append({
         "range": {
