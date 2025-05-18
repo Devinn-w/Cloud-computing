@@ -77,6 +77,7 @@ These endpoints return a **JSON object** with a `statusCode` and a `body` field.
   "statusCode": 200,
   "body": "[{\"keyword\": \"trump\", \"count\": 5, \"avg_sentiment\": 0.115}]"
 }
+```
 
 ## Note on Git History
 During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
