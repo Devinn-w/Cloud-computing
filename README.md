@@ -47,6 +47,37 @@ The following routes return **a JSON array of objects** with each keyword's sent
 - `GET /analysis/mastodon/date/{start}/end/{end}`
 - `GET /analysis/mastodon/date/{start}/end/{end}/keyword/{keyword}`
 
+#### Example Response:
+```json
+[
+  {"keyword": "trump", "count": 40156, "avg_sentiment": -0.077},
+  {"keyword": "tariff", "count": 4049, "avg_sentiment": -0.075}
+]
+
+---
+
+### Reddit Sentiment Analysis (`rstats`)
+
+These endpoints return a **JSON object** with a `statusCode` and a `body` field. The `body` is a JSON-encoded string containing an array of sentiment results.
+
+#### Supported endpoints:
+
+- `GET /analysis/reddit`
+  - Requires headers:
+    - `X-Fission-Params-Start`
+    - `X-Fission-Params-End`
+    - `X-Fission-Params-Keyword`
+- `GET /analysis/reddit/keyword/{keyword}`
+- `GET /analysis/reddit/date/{start}/end/{end}`
+- `GET /analysis/reddit/date/{start}/end/{end}/keyword/{keyword}`
+
+#### Example Response:
+```json
+{
+  "statusCode": 200,
+  "body": "[{\"keyword\": \"trump\", \"count\": 5, \"avg_sentiment\": 0.115}]"
+}
+
 ## Note on Git History
 During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
 Although I have manually restored all the original files, please note that the previous commit history has been lost. As a result, individual commit records are no longer available.  
