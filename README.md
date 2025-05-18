@@ -37,6 +37,16 @@ excluding the stanrdard seyup covered in the workshop
 ## Instructions
 This project publishes multiple analysis functions as HTTP routes exposed by Fission. Any HTTP client (e.g., curl, Python requests, or Jupyter Notebook) can be used to interact with them. The endpoints enable querying of Mastodon and Reddit posts in Elasticsearch along with their corresponding sentiment scores.
 
+### Mastodon Sentiment analysis
+The following routes return **a JSON array of objects** with each keyword's sentiment score and post count.
+
+### Supported endpoints
+- `GET /analysis/mastodon`
+  - Requires headers: `X-Fission-Params-Start`, `X-Fission-Params-End`, and `X-Fission-Params-Keyword`
+- `GET /analysis/mastodon/keyword/{keyword}`
+- `GET /analysis/mastodon/date/{start}/end/{end}`
+- `GET /analysis/mastodon/date/{start}/end/{end}/keyword/{keyword}`
+
 ## Note on Git History
 During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
 Although I have manually restored all the original files, please note that the previous commit history has been lost. As a result, individual commit records are no longer available.  
