@@ -27,6 +27,7 @@ YouTube Video: https://youtu.be/yourvideo
 ├── data                      # Reference data
 ├── docs                      # Documentation
 │   └── Report.pdf
+├── .gitlab-ci.yml            # CICD
 └── README.md                 # This file
 ```
 
