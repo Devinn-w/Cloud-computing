@@ -35,7 +35,7 @@ YouTube Video: https://youtu.be/yourvideo
 excluding the stanrdard seyup covered in the workshop
 
 ## Instructions
-how to use the client
+This project publishes multiple analysis functions as HTTP routes exposed by Fission. Any HTTP client (e.g., curl, Python requests, or Jupyter Notebook) can be used to interact with them. The endpoints enable querying of Mastodon and Reddit posts in Elasticsearch along with their corresponding sentiment scores.
 
 ## Note on Git History
 During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
