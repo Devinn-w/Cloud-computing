@@ -6,7 +6,7 @@
 ├── backend/                  # Application back-end source code
 │   ├── rharvester/           # Reddit data collector
 │   ├── mharvester/           # Mastodon data collector
-│   ├── pharvester/           # Past data collector        
+│   ├── past/                 # Past Mastodon data collector        
 │   ├── specs/                # YAML specifications
 │   ├── mdata/                # Mastodon query aggregation
 │   ├── rdata/                # Reddit query aggregation
