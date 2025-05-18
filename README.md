@@ -53,10 +53,10 @@ The following routes return **a JSON array of objects** with each keyword's sent
   {"keyword": "trump", "count": 40156, "avg_sentiment": -0.077},
   {"keyword": "tariff", "count": 4049, "avg_sentiment": -0.075}
 ]
-
+```
 ---
 
-### Reddit Sentiment Analysis (`rstats`)
+### Reddit Sentiment Analysis
 
 These endpoints return a **JSON object** with a `statusCode` and a `body` field. The `body` is a JSON-encoded string containing an array of sentiment results.
 
