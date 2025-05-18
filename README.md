@@ -38,7 +38,7 @@ excluding the stanrdard seyup covered in the workshop
 This project publishes multiple analysis functions as HTTP routes exposed by Fission. Any HTTP client (e.g., curl, Python requests, or Jupyter Notebook) can be used to interact with them. The endpoints enable querying of Mastodon and Reddit posts in Elasticsearch along with their corresponding sentiment scores.
 
 ### Mastodon Sentiment analysis
-The following routes return **a JSON array of objects** with each keyword's sentiment score and post count.
+The following routes return **a JSON objects** with each keyword's sentiment score and post count.
 
 ### Supported endpoints
 - `GET /analysis/mastodon`
@@ -58,7 +58,7 @@ The following routes return **a JSON array of objects** with each keyword's sent
 
 ### Reddit Sentiment Analysis
 
-These endpoints return a **JSON object** with a `statusCode` and a `body` field. The `body` is a JSON-encoded string containing an array of sentiment results.
+These endpoints return a **JSON objects** with a `statusCode` and a `body` field. The `body` is a JSON-encoded string containing an array of sentiment results.
 
 #### Supported endpoints:
 
