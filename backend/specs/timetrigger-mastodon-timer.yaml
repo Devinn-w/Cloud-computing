@@ -4,7 +4,7 @@ metadata:
   creationTimestamp: null
   name: mastodon-timer
 spec:
-  cron: '@every 40s'
+  cron: '@every 30s'
   functionref:
     functionweights: null
     name: mharvest
