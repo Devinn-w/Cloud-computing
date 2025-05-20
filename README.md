@@ -116,6 +116,7 @@ curl -X GET http://localhost:30451/analysis/reddit \
   -H "X-Fission-Params-End: 2025-05-12" \
   -H "X-Fission-Params-Keyword: trump"
 
+
 #### Example Response:
 {
   "statusCode": 200,
@@ -127,6 +128,39 @@ curl -X GET http://localhost:30451/analysis/reddit \
     { "keyword": "make america great again", "count": 1, "avg_sentiment": 0.966 }
   ]
 }
+### System Testing Instructions
+After deploying the system, here’s how to verify it works as expected:
+
+#### Make sure data is indexed
+	Run the mharvest and rharvest functions to ensure data is present in Elasticsearch.
+
+kubectl exec -it elasticsearch-master-0 -n elastic -- \
+  curl -u elastic:elastic https://elasticsearch-master:9200/mastodon-posts/_count --insecure
+
+kubectl exec -it elasticsearch-master-0 -n elastic -- \
+  curl -u elastic:elastic https://elasticsearch-master:9200/reddit-posts/_count --insecure
+
+####  Test Mastodon Query
+curl -X GET http://localhost:30451/analysis/mastodon \
+  -H "X-Fission-Params-Start: 2025-05-01" \
+  -H "X-Fission-Params-End: 2025-05-12" \
+  -H "X-Fission-Params-Keyword: trump"
+
+Output should include keyword, count, and avg_sentiment.
+
+#### Test Reddit Query
+curl -X GET http://localhost:30451/analysis/reddit \
+  -H "X-Fission-Params-Start: 2025-05-01" \
+  -H "X-Fission-Params-End: 2025-05-12" \
+  -H "X-Fission-Params-Keyword: trump"
+
+Output should be a JSON string in the body field.
+
+#### Test frontend
+Open frontend/trump_tariff_analysis.ipynb and run the prewritten Python code to:
+	•	Query both Mastodon and Reddit
+	•	Visualize result using pandas & matplotlib
+	•	Verify response shape and keywords
 
 ## Note on Git History
 During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
