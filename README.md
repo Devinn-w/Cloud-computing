@@ -40,6 +40,25 @@ This system uses Fission functions running on a Kubernetes cluster. You can acce
 This guide shows how to run the application, query data, and see results, **even if you’re new to Kubernetes or Fission**.
 
 ---
+### Before You Start
+
+Make sure you have:
+
+- A running Kubernetes cluster
+- Fission already installed and functions deployed
+- Elasticsearch running inside the cluster
+- Your environment variables (username, password) stored in the `shared-data` ConfigMap
+
+---
+
+### Step 1: Port Forward Fission Router
+You must expose the Fission router to your local machine. In a terminal window, run:
+
+```bash
+kubectl port-forward -n fission svc/router 30451:80
+
+Keep this terminal open during testing. All HTTP requests use localhost:30451.
+
 
 ### Mastodon Sentiment analysis
 The following routes return **a JSON objects** with each keyword's sentiment score and post count.
