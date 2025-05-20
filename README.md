@@ -58,10 +58,14 @@ You must expose the Fission router to your local machine. In a terminal window, 
 kubectl port-forward -n fission svc/router 30451:80
 
 Keep this terminal open during testing. All HTTP requests use localhost:30451.
+```
+
+### Query the Sentiment API
+You can query the Mastodon and Reddit sentiment endpoints using curl, Jupyter Notebook, or Python.
 
 
 ### Mastodon Sentiment analysis
-The following routes return **a JSON objects** with each keyword's sentiment score and post count.
+These routes return a JSON array of keyword-based sentiment stats.
 
 ### Supported endpoints
 - `GET /analysis/mastodon`
