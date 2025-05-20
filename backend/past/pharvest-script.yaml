@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: tharvest-script
+  name: pharvest-script
 data:
-  tharvest.py: |
+  pharvest.py: |
     from mastodon import Mastodon, MastodonError
     from html import unescape
     from typing import List, Dict, Any
