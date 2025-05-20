@@ -132,7 +132,7 @@ curl -X GET http://localhost:30451/analysis/reddit \
 After deploying the system, here’s how to verify it works as expected:
 
 #### Make sure data is indexed
-	Run the mharvest and rharvest functions to ensure data is present in Elasticsearch.
+Run the mharvest and rharvest functions to ensure data is present in Elasticsearch.
 
 kubectl exec -it elasticsearch-master-0 -n elastic -- \
   curl -u elastic:elastic https://elasticsearch-master:9200/mastodon-posts/_count --insecure
@@ -157,8 +157,9 @@ curl -X GET http://localhost:30451/analysis/reddit \
 Output should be a JSON string in the body field.
 
 #### Test frontend
-Open frontend/trump_tariff_analysis.ipynb and run the prewritten Python code to:
-	-	Query both Mastodon and Reddit
+Open `frontend/trump_tariff_analysis.ipynb` and run the prewritten Python code to:
+
+  - Query both Mastodon and Reddit
 	-	Visualize result using pandas & matplotlib
 	-	Verify response shape and keywords
 
