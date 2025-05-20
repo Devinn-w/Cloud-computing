@@ -35,7 +35,11 @@ YouTube Video: https://youtu.be/yourvideo
 excluding the stanrdard seyup covered in the workshop
 
 ## Instructions
-This project publishes multiple analysis functions as HTTP routes exposed by Fission. Any HTTP client (e.g., curl, Python requests, or Jupyter Notebook) can be used to interact with them. The endpoints enable querying of Mastodon and Reddit posts in Elasticsearch along with their corresponding sentiment scores.
+This system uses Fission functions running on a Kubernetes cluster. You can access the system through HTTP API calls after setting up a local port forwarding.
+
+This guide shows how to run the application, query data, and see results, **even if you’re new to Kubernetes or Fission**.
+
+---
 
 ### Mastodon Sentiment analysis
 The following routes return **a JSON objects** with each keyword's sentiment score and post count.
