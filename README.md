@@ -35,8 +35,7 @@ YouTube Video: https://youtu.be/yourvideo
 
 This project builds upon the standard COMP90024 workshop setup provided by teaching staff.
 
-We assume the following base infrastructure is already configured as per the course guidelines:
-
+Including:
 - Kubernetes cluster 
 - Fission serverless platform installed
 - Elasticsearch deployed and accessible at `elasticsearch-master.elastic.svc.cluster.local:9200`
@@ -48,15 +47,15 @@ We assume the following base infrastructure is already configured as per the cou
 ### JupyterJupyter Notebook
 
 To test the frontend analysis notebook, install Jupyter and required Python packages:
-   -pip install notebook pandas matplotlib requests
+- pip install notebook pandas matplotlib requests
 Then launch the frontend notebook:
-   -cd frontend
-   -jupyter notebook trump_tariff_analysis.ipynb
+- cd frontend
+- jupyter notebook trump_tariff_analysis.ipynb
 
 The notebook allows us to:
-   -Query Mastodon and Reddit sentiment endpoints
-   -Visualize trends using matplotlib
-   -Validate API responses using Python
+- Query Mastodon and Reddit sentiment endpoints
+- Visualize trends using matplotlib
+- Validate API responses using Python
 
 ## Instructions
 This system uses Fission functions running on a Kubernetes cluster. You can access the system through HTTP API calls after setting up a local port forwarding.
