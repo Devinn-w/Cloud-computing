@@ -81,7 +81,7 @@ curl -X GET http://localhost:30451/analysis/mastodon \
   -H "X-Fission-Params-Keyword: trump"
 
 #### Example Response:
-[
+ { [
   { "keyword": "trump", "count": 40157, "avg_sentiment": -0.077 },
   { "keyword": "tariff", "count": 4707, "avg_sentiment": -0.076 },
   { "keyword": "tariffs", "count": 3715, "avg_sentiment": -0.073 },
@@ -93,7 +93,7 @@ curl -X GET http://localhost:30451/analysis/mastodon \
   { "keyword": "make america great again", "count": 11, "avg_sentiment": 0.431 },
   { "keyword": "potus", "count": 3, "avg_sentiment": 0.000 }
 ]
----
+ }
 
 ### Reddit Sentiment Analysis
 
