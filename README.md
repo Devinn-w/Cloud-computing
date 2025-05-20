@@ -60,7 +60,7 @@ kubectl port-forward -n fission svc/router 30451:80
 Keep this terminal open during testing. All HTTP requests use localhost:30451.
 ```
 
-### Query the Sentiment API
+### Step 2: Query the Sentiment API
 You can query the Mastodon and Reddit sentiment endpoints using curl, Jupyter Notebook, or Python.
 
 
@@ -74,13 +74,25 @@ These routes return a JSON array of keyword-based sentiment stats.
 - `GET /analysis/mastodon/date/{start}/end/{end}`
 - `GET /analysis/mastodon/date/{start}/end/{end}/keyword/{keyword}`
 
+#### Example requests:
+curl -X GET http://localhost:30451/analysis/mastodon \
+  -H "X-Fission-Params-Start: 2025-05-01" \
+  -H "X-Fission-Params-End: 2025-05-12" \
+  -H "X-Fission-Params-Keyword: trump"
+
 #### Example Response:
-```json
 [
-  {"keyword": "trump", "count": 40156, "avg_sentiment": -0.077},
-  {"keyword": "tariff", "count": 4049, "avg_sentiment": -0.075}
+  { "keyword": "trump", "count": 40157, "avg_sentiment": -0.077 },
+  { "keyword": "tariff", "count": 4707, "avg_sentiment": -0.076 },
+  { "keyword": "tariffs", "count": 3715, "avg_sentiment": -0.073 },
+  { "keyword": "donald trump", "count": 3397, "avg_sentiment": -0.047 },
+  { "keyword": "trade war", "count": 447, "avg_sentiment": -0.452 },
+  { "keyword": "trumpism", "count": 201, "avg_sentiment": -0.026 },
+  { "keyword": "trumpian", "count": 71, "avg_sentiment": -0.130 },
+  { "keyword": "maga", "count": 15, "avg_sentiment": -0.218 },
+  { "keyword": "make america great again", "count": 11, "avg_sentiment": 0.431 },
+  { "keyword": "potus", "count": 3, "avg_sentiment": 0.000 }
 ]
-```
 ---
 
 ### Reddit Sentiment Analysis
@@ -98,13 +110,23 @@ These endpoints return a **JSON objects** with a `statusCode` and a `body` field
 - `GET /analysis/reddit/date/{start}/end/{end}`
 - `GET /analysis/reddit/date/{start}/end/{end}/keyword/{keyword}`
 
+#### Example requests:
+curl -X GET http://localhost:30451/analysis/reddit \
+  -H "X-Fission-Params-Start: 2025-05-01" \
+  -H "X-Fission-Params-End: 2025-05-12" \
+  -H "X-Fission-Params-Keyword: trump"
+
 #### Example Response:
-```json
 {
   "statusCode": 200,
-  "body": "[{\"keyword\": \"trump\", \"count\": 5, \"avg_sentiment\": 0.115}]"
+  "body": [
+    { "keyword": "trump", "count": 5, "avg_sentiment": 0.115 },
+    { "keyword": "tariff", "count": 2, "avg_sentiment": -0.211 },
+    { "keyword": "tariffs", "count": 2, "avg_sentiment": -0.211 },
+    { "keyword": "maga", "count": 1, "avg_sentiment": 0.966 },
+    { "keyword": "make america great again", "count": 1, "avg_sentiment": 0.966 }
+  ]
 }
-```
 
 ## Note on Git History
 During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
