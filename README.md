@@ -32,7 +32,19 @@ YouTube Video: https://youtu.be/yourvideo
 ```
 
 ## Installation
-excluding the stanrdard seyup covered in the workshop
+
+#### JupyterJupyter Notebook
+
+To test the frontend analysis notebook, install Jupyter and required Python packages:
+  -pip install notebook pandas matplotlib requests
+Then launch the frontend notebook:
+  -cd frontend
+  -jupyter notebook trump_tariff_analysis.ipynb
+
+The notebook allows us to:
+  -Query Mastodon and Reddit sentiment endpoints
+  -Visualize trends using matplotlib
+  -Validate API responses using Python
 
 ## Instructions
 This system uses Fission functions running on a Kubernetes cluster. You can access the system through HTTP API calls after setting up a local port forwarding.
