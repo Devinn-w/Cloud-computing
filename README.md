@@ -158,7 +158,6 @@ Output should be a JSON string in the body field.
 
 #### Test frontend
 Open `frontend/trump_tariff_analysis.ipynb` and run the prewritten Python code to:
-
   - Query both Mastodon and Reddit
 	-	Visualize result using pandas & matplotlib
 	-	Verify response shape and keywords
