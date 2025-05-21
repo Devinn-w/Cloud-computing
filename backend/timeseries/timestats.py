@@ -108,6 +108,6 @@ def main() -> Dict[str, Any]:
         avg = b["avg_sentiment"]["value"]
         result.append({
             "created_at": date,
-            "avg_sentiment": round(avg, 4)
+            "avg_sentiment": round(b["avg_sentiment"]["value"] or 0.0, 4)
         })
     return jsonify(result)
