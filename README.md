@@ -49,7 +49,12 @@ Make sure you have Python 3.8 or above installed on your computer.
 
 ### Install necessary Python modules
 
-Run the following command in the terminal to install the modules required for running:
+Run the following command in the terminal to install the modules required for running (Success FOR `WINDOWS`):
+
+#### Jupyter notebook
+```bash
+pip install notebook
+```
 
 #### pandas (for data processing)
 ```bash
@@ -69,19 +74,12 @@ pip install folium
 #### ipywidgets (for interactive controls)
 ```bash
 pip install ipywidgets
-jupyter nbextension enable --py widgetsnbextension
 ```
 
 ### Place Frontend Files
 
-Make sure you place these files `api_utils.py`, `plot_utils.py` and `trump_tariff_analysis.ipynb` in the same directory.
+Make sure you place these files `mastodon_thinking_swinging_question.gif`, `api_utils.py`, `plot_utils.py` and `trump_tariff_analysis.ipynb` in the same directory.
 
-### Use in Jupyter Notebook
-
-Start Jupyter Notebook:
-```bash
-jupyter notebook
-```
 
 ## Instructions
 This system uses Fission functions running on a Kubernetes cluster. You can access the system through HTTP API calls after setting up a local port forwarding.
@@ -109,13 +107,27 @@ kubectl port-forward svc/router -n fission 9090:80
 
 Keep this terminal open during testing.
 
-### Step 2: Query the Sentiment API
+### Step 2: Use in Jupyter Notebook
+
+Start Jupyter Notebook:
+```bash
+jupyter notebook
+```
+
+### Step 3: View Frontend Service
+Open `frontend/trump_tariff_analysis.ipynb` and run each cell to view our frontend visualization dashboard:
+	-	Visualize analysis result
+	-	Verify response shape and keywords
+  - Query both Mastodon and Reddit
+
+## Tesing
+### Query the Sentiment API
 You can query the Mastodon and Reddit sentiment endpoints using curl, Jupyter Notebook, or Python.
 
-#### Mastodon Sentiment analysis
+### Mastodon Sentiment analysis Functions
 These routes would return a JSON array of keyword-based sentiment stats.
 
-#### Supported endpoints
+### Supported endpoints
 - `GET /analysis/mastodon`
   - Requires headers: `X-Fission-Params-Start`, `X-Fission-Params-End`, and `X-Fission-Params-Keyword`
 - `GET /analysis/mastodon/content`
@@ -135,11 +147,11 @@ curl -X GET http://localhost:9090/analysis/mastodon \
 #### Example Response:
 [{"avg_sentiment":-0.077,"count":40157,"keyword":"trump"},{"avg_sentiment":-0.076,"count":4707,"keyword":"tariff"},{"avg_sentiment":-0.073,"count":3715,"keyword":"tariffs"},{"avg_sentiment":-0.047,"count":3397,"keyword":"donald trump"},{"avg_sentiment":-0.452,"count":447,"keyword":"trade war"},{"avg_sentiment":-0.026,"count":201,"keyword":"trumpism"},{"avg_sentiment":-0.13,"count":71,"keyword":"trumpian"},{"avg_sentiment":-0.218,"count":15,"keyword":"maga"},{"avg_sentiment":0.431,"count":11,"keyword":"make america great again"},{"avg_sentiment":0.0,"count":3,"keyword":"potus"}]
 
-#### Reddit Sentiment Analysis
+### Reddit Sentiment Analysis Fuctions
 
 These endpoints return a **JSON objects** with a `statusCode` and a `body` field. The `body` is a JSON-encoded string containing an array of sentiment results.
 
-#### Supported endpoints:
+### Supported endpoints:
 - `GET /analysis/reddit`
   - Requires headers: `X-Fission-Params-Start`, `X-Fission-Params-End`, and `X-Fission-Params-Keyword`
 
@@ -155,10 +167,10 @@ curl -X GET http://localhost:9090/analysis/reddit \
 {"body":"[{\"keyword\": \"trump\", \"count\": 5, \"avg_sentiment\": 0.115}, {\"keyword\": \"tariff\", \"count\": 2, \"avg_sentiment\": -0.211}, {\"keyword\": \"tariffs\", \"count\": 2, \"avg_sentiment\": -0.211}, {\"keyword\": \"maga\", \"count\": 1, \"avg_sentiment\": 0.966}, {\"keyword\": \"make america great again\", \"count\": 1, \"avg_sentiment\": 0.966}]","statusCode":200}
 
 ### System Testing Instructions
-After deploying the system, here’s how to verify it works as expected:
+Here’s how to verify it works as expected:
 
 #### Make sure data is indexed
-Run the mharvest and rharvest functions to ensure data is present in Elasticsearch.
+Run the mharvest and rharvest functions to ensure data is present in Elasticsearch, run the following command in the cloud.
 ```bash
 kubectl exec -it elasticsearch-master-0 -n elastic -- curl -u elastic:elastic https://elasticsearch-master:9200/mastodon-posts/_count --insecure
 ```
@@ -199,12 +211,6 @@ curl -X GET http://localhost:9090/analysis/reddit \
   -H "X-Fission-Params-Keyword: trump"
 ```
 Output is shown above in [Example Response]
-
-#### View Frontend Service
-Open `frontend/trump_tariff_analysis.ipynb` and run the Python code in each cell to view our frontend visualization dashboard:
-	-	Visualize analysis result
-	-	Verify response shape and keywords
-  - Query both Mastodon and Reddit
 
 ## Note on Git History
 During development, the Git history of this repository was unintentionally overwritten due to a forced push (`git push --force`) while trying to upload the `specs/` directory for Fission deployment.  
