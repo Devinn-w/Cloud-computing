@@ -21,7 +21,7 @@ def plot_trump_tariff_bubble(trump_count: int, tariff_count: int):
     df = pd.DataFrame({
         'Category': ['Trump Related', 'Tariff Related'],
         'Post Count': [trump_count, tariff_count],
-        'x': [1, 1.03], 
+        'x': [1, 1.04], 
         'y': [1, 1],
         'Label': [str(trump_count), str(tariff_count)]
     })
