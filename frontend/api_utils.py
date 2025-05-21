@@ -19,15 +19,19 @@ def get_mastodon_sentiment_timeseries_trump(
 
     url = f"http://localhost:9090/analysis/timestats"
     headers = {
-        "X-Fission-Params-Source":  "mastodon-posts",
-        "X-Fission-Params-Start":   start_date or "",
-        "X-Fission-Params-End":     end_date or "",
-        "X-Fission-Params-Keyword": keyword    or "",
+        "X-Fission-Params-Source": "mastodon-posts",
         "X-Fission-Params-Exclude": "tariff,tariffs,trade war,us-australia trade"
     }
+
+    if start_date and end_date:
+        headers["X-Fission-Params-Start"] = start_date
+        headers["X-Fission-Params-End"] = end_date
+
+    if keyword:
+        headers["X-Fission-Params-Keyword"] = keyword
  
     resp = requests.get(url, headers=headers)
-    resp.raise_for_status()
+    #resp.raise_for_status()
     data = resp.json()
   
     df = pd.DataFrame(data)
