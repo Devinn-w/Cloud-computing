@@ -36,8 +36,8 @@ def main():
 
     # Initialize Bluesky client
     client = Client()
-    handle = "devinn12.bsky.social"
-    app_password = "evhp-3gto-kj6g-ewal"
+    handle = "****"
+    app_password = "*********"
 
     try:
         profile = client.login(handle, app_password)
