@@ -28,7 +28,7 @@ def main() -> str:
     """Harvest recent public posts from Mastodon timeline matching keywords."""
 
     mastodon: Mastodon = Mastodon(
-        access_token='468XGrkU6y2GYVnmTXF_VlxeJGF2GwXw8uOKLMFz7zY',
+        access_token='*******',
         api_base_url='https://mastodon.au',
         request_timeout=10
     )
