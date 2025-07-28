@@ -58,9 +58,9 @@ def main():
 
     # Reddit API
     reddit = Reddit(
-        client_id="Ku89M9J60Btb3X10HJVeaw",
-        client_secret="YDdSCPyuomG0oXDBwFOKbAZa9tKwkw",
-        user_agent="AU Sentiment Harvester by /u/Devinn_W"
+        client_id="******",
+        client_secret="**********",
+        user_agent="*************"
     )
 
     # Load last post ID
